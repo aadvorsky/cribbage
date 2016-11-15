@@ -19,6 +19,15 @@ public class Stack {
       top = stack.length - 1;
     }
 
+    public Stack(String s) {
+      String[] cards = s.split(" ");
+      stack = new Card[numberOfDecks * 52];
+      top = cards.length - 1;
+      for (int i = 0; i < cards.length; i++) {
+        stack[i] = new Card(cards[i]);
+      }
+    }
+
     private void shuffle()
     {
       Random r = new Random();
@@ -44,5 +53,14 @@ public class Stack {
       Card tmp = stack[a];
       stack[a] = stack[b];
       stack[b] = tmp;
+    }
+
+    public String toString() {
+      StringBuilder sb = new StringBuilder();
+      for (int i = 0; i <= top; i++) {
+        sb.append(stack[i].toString());
+        sb.append(" ");
+      }
+      return sb.toString().trim();
     }
 }
