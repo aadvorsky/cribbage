@@ -12,11 +12,12 @@ public class Player {
 
     public boolean isTurn()
     {
-        reutrn null;
+        // TODO
+        return false;
     }
 
     public Card[] hand()
     {
-
+      return null;
     }
 }

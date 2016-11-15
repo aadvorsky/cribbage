@@ -13,5 +13,5 @@ public class Configuration {
   /**
    * Number of decks to use.
    */
-  public static final String NUMBER_OF_DECKS = 2;
+  public static final int NUMBER_OF_DECKS = 2;
 }

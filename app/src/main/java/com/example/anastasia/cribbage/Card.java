@@ -27,17 +27,18 @@ public class Card {
 
   public Card(String s) {
     faceUp = s.charAt(0) == '1';
-    String suitString  = s.subString(1, 2);
-    int suit = -1;
+    String suitString  = s.substring(1, 2);
+    int tmpSuit = -1;
     for (int i = 0; i < suitEncodings.length; i++) {
       if (suitEncodings[i].equals(suitString)) {
-        suit = i;
+        tmpSuit = i;
         break;
       }
     }
-    if (suit == -1) {
+    if (tmpSuit == -1) {
       throw new IllegalArgumentException("Invalid string for suit.");
     }
+    suit = tmpSuit;
     rank = Integer.parseInt(s.substring(2, s.length()));
   }
 
@@ -54,6 +55,7 @@ public class Card {
     sb.append(faceUp ? 1 : 0);
     sb.append(suitEncodings[suit]);
     sb.append(rank);
+    return sb.toString();
   }
 
   /**

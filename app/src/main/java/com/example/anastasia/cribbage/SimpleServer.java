@@ -1,23 +1,31 @@
 package com.example.anastasia.cribbage;
 
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.LinkedList;
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.Random;
+import java.util.Scanner;
+
 public class SimpleServer {
-  private final int port;
+  static private int port;
   static int nextUserId = 0;
   static int nextGroup = 0;
   static LinkedList<Integer> waitingUsers = new LinkedList<>();
   static Object groupLock = new Object();
-  private final HashMap<Integer, Integer> groups = new HashMap<>();
-  private final HashMap<Integer, Integer[]> groupsReversed = new HashMap<>();
-  private final ConcurrentHashMap<Integer, GameState> gameStates = new ConcurrentHashMap<>();
+  static private final HashMap<Integer, Integer> groups = new HashMap<>();
+  static private final HashMap<Integer, Integer[]> groupsReversed = new HashMap<>();
+  static private final ConcurrentHashMap<Integer, GameState> gameStates = new ConcurrentHashMap<>();
 
   public static void main(String[] args) throws IOException {
     if (args.length == 1) {
       port = Integer.parseInt(args[0]);
-    else {
+    } else {
       port = 8000;
       System.out.println("Invalid arguments, setting port to 8000.");
     }
-    ServerSocket serverSocket = new ServerSocket(portNumber);
+    ServerSocket serverSocket = new ServerSocket(port);
     while (true) {
       final Socket clientSocket = serverSocket.accept();
       Runnable clientHandler = new ClientHandler(clientSocket);
@@ -25,15 +33,17 @@ public class SimpleServer {
     }
   }
 
-  static class ClientHandler extends Runnable {
+  static class ClientHandler implements Runnable {
     final Socket socket;
     final int userId;
+    final Scanner scanner; // TODO
+    final PrintWriter writer;  // TODO
 
     public ClientHandler(final Socket socket) {
       this.socket = socket;
       userId = nextUserId;
       nextUserId++;
-      synchronized(groupAssigmentLock) {
+      synchronized(groupLock) {
         waitingUsers.add(userId);
       }
     }
@@ -47,7 +57,7 @@ public class SimpleServer {
             groupFound = true;
             break;
           } else if (waitingUsers.size() >= Configuration.N) {
-            users = new Integer[Configuration.N];
+            Integer[] users = new Integer[Configuration.N];
             for (int i = 0; i < Configuration.N; i++) {
               Integer user = waitingUsers.remove();
               users[i] = user;
@@ -66,31 +76,35 @@ public class SimpleServer {
       int internalId = -1;
       synchronized (groupLock) {
         group = groups.get(userId);
-        Integer[] users = users.get(group);
+        Integer[] usersInGroup = groupsReversed.get(group);
         for (int i = 0; i < Configuration.N; i++) {
-          if (users[i] == userId) {
+          if (usersInGroup[i] == userId) {
             internalId = i;
           }
         }
       }
-      socket.write(internalId);
+      write(socket, internalId + "");
       if (master) {
         GameState gameState = new GameState();
         gameStates.put(group, gameState);
       }
       while (!gameStates.containsKey(group)) {}
       GameState gameState = gameStates.get(group);
-      socket.write(gameState);
+      write(socket, gameState.toString());
       while (true) {
         if (scanner.hasNextLine()) {
           gameState = new GameState(scanner.nextLine());
           gamesStates.put(group, gameState);
         }
         if (gameStates.get(group) != gameState) {
-          socket.write(gameStates.get(group));
+          write(socket, gameStates.get(group).toString());
         }
       }
     }
 
+    void write(Socket socket, String s) {
+      // TODO
+    }
   }
+
 }
