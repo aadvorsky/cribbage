@@ -27,15 +27,17 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String IPAddress = setIPAddress.getText().toString();
                 String portAddress = setPortAddress.getText().toString();
-                SingletonSocket socket  = SingletonSocket.getInstance();
-                int portNo = Integer.parseInt(portAddress);
+                SingletonSocket instance  = SingletonSocket.getInstance();
+
+
+
                 try {
                     serverAddress = InetAddress.getByName(IPAddress);
                 } catch (UnknownHostException e) {
                     e.printStackTrace();
                 }
 
-                socket.setSocket(serverAddress,portNo);
+
             }
 
         });
