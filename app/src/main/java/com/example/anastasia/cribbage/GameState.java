@@ -4,20 +4,27 @@
 
 public class GameState {
 
-    //currentCard
-    //player[]
-    //stack
-    public Card currentCard()
-    {
-        return null;
+    final Card currentCard;
+    final Player[] players;
+    final int currentPlayer;
+
+    public GameState(Card currentCard, Player[] players, int currentPlayer) {
+      this.currentCard = currentCard;
+      this.players = players;
+      this.currentPlayer = currentPlayer;
     }
 
-    public Player[] returnPlayerArray()
+    public Card currentCard()
     {
-        return null;
+      return currentCard;
     }
-    public Player returnCurrentPlayer()
+
+    public Player[] getPlayers()
     {
-        return null;
+      return players;
+    }
+    public int getCurrentPlayer()
+    {
+      return currentPlayer;
     }
 }
