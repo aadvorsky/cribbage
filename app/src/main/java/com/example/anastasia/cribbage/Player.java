@@ -10,6 +10,14 @@ public class Player {
     //hand
     //state transitions - send to server
 
+    public Player(Card[] hand) {
+      // TODO
+    }
+
+    public void startTurn() {
+
+    }
+
     public boolean isTurn()
     {
         // TODO

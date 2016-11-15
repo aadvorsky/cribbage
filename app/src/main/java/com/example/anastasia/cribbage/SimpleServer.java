@@ -1,11 +1,12 @@
 package com.example.anastasia.cribbage;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.Random;
 import java.util.Scanner;
 
 public class SimpleServer {
@@ -36,8 +37,8 @@ public class SimpleServer {
   static class ClientHandler implements Runnable {
     final Socket socket;
     final int userId;
-    final Scanner scanner; // TODO
-    final PrintWriter writer;  // TODO
+    final Scanner scanner;
+    final PrintWriter writer;
 
     public ClientHandler(final Socket socket) {
       this.socket = socket;
@@ -46,6 +47,8 @@ public class SimpleServer {
       synchronized(groupLock) {
         waitingUsers.add(userId);
       }
+      scanner = new Scanner(socket.getInputStream());
+      writer = new PrintWriter(socket.getOutputStream());
     }
 
     public void run() {
@@ -83,27 +86,27 @@ public class SimpleServer {
           }
         }
       }
-      write(socket, internalId + "");
+      write(internalId + "");
       if (master) {
         GameState gameState = new GameState();
         gameStates.put(group, gameState);
       }
       while (!gameStates.containsKey(group)) {}
       GameState gameState = gameStates.get(group);
-      write(socket, gameState.toString());
+      write(gameState.toString());
       while (true) {
         if (scanner.hasNextLine()) {
           gameState = new GameState(scanner.nextLine());
-          gamesStates.put(group, gameState);
+          gameStates.put(group, gameState);
         }
         if (gameStates.get(group) != gameState) {
-          write(socket, gameStates.get(group).toString());
+          write(gameStates.get(group).toString());
         }
       }
     }
 
-    void write(Socket socket, String s) {
-      // TODO
+    void write(String s) {
+      writer.println(s);
     }
   }
 

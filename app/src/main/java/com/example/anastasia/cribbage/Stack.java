@@ -1,4 +1,6 @@
 package com.example.anastasia.cribbage;
+
+import java.util.Random;
 /**
  * Created by advorsky on 11/13/16.
  */
