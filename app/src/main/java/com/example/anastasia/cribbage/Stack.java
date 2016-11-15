@@ -3,21 +3,46 @@
  */
 
 public class Stack {
+    Card[] stack;
+    int top;
 
     public Stack()
     {
-
+      int numberOfDecks = Configuration.numberOfDecks;
+      stack = new Card[numberOfDecks * 52];
+      for (int i = 0; i < numberOfDecks; i++) {
+        Card[] deck = Card.createDeck();
+        for (int j = 0; j < deck.length; j++) {
+          stack[i * 52 + j] = deck[j];
+        }
+      }
+      top = stack.length - 1;
     }
 
-    public void shuffle()
+    private void shuffle()
     {
-
+      Random r = new Random();
+      for (int i = 0; i < stack.length; i++) {
+        int random = r.nextInt(stack.length - i);
+        swap(i, random);
+      }
     }
 
     public Card pop()
     {
-        //deal card - remove top
-        return null;
+      if (top < 0) {
+        throw new IllegalStateException("Cannot pop from empty stack.");
+      }
+      return stack[top--];
     }
 
+    public boolean isEmpty() {
+      return top >= 0;
+    }
+
+    private void swap(int a, int b) {
+      Card tmp = stack[a];
+      stack[a] = stack[b];
+      stack[b] = tmp;
+    }
 }

@@ -7,4 +7,9 @@ public class Configuration {
    * Delimeter used in encoding of GameState.
    */
   public static final String gameStateDelim = ":";
+
+  /**
+   * Number of decks to use.
+   */
+  public static final String numberOfDecks = 2;
 }

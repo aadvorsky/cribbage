@@ -55,4 +55,18 @@ public class Card {
     sb.append(suitEncodings[suit]);
     sb.append(rank);
   }
+
+  /**
+   * Returns standard 52-card deck.
+   */
+  public static Card[] createDeck() {
+    Card[] deck = new Card[52];
+    for (int i = 0; i < 4; i++) {
+      for (int j = 1; j <= 13; j++) {
+        deck[i * 13 + j - 1] = new Card(i, j, false);
+      }
+    }
+    return deck;
+  }
+
 }
