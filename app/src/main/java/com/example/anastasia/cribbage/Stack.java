@@ -1,3 +1,4 @@
+package com.example.anastasia.cribbage;
 /**
  * Created by advorsky on 11/13/16.
  */
@@ -8,7 +9,7 @@ public class Stack {
 
     public Stack()
     {
-      int numberOfDecks = Configuration.numberOfDecks;
+      int numberOfDecks = Configuration.NUMBER_OF_DECKS;
       stack = new Card[numberOfDecks * 52];
       for (int i = 0; i < numberOfDecks; i++) {
         Card[] deck = Card.createDeck();
@@ -21,7 +22,7 @@ public class Stack {
 
     public Stack(String s) {
       String[] cards = s.split(" ");
-      stack = new Card[numberOfDecks * 52];
+      stack = new Card[Configuration.NUMBER_OF_DECKS * 52];
       top = cards.length - 1;
       for (int i = 0; i < cards.length; i++) {
         stack[i] = new Card(cards[i]);

@@ -1,3 +1,5 @@
+package com.example.anastasia.cribbage;
+
 public class Configuration {
   /*
    * Number of players.
@@ -6,10 +8,10 @@ public class Configuration {
   /**
    * Delimeter used in encoding of GameState.
    */
-  public static final String gameStateDelim = ":";
+  public static final String GAME_STATE_DELIM = ":";
 
   /**
    * Number of decks to use.
    */
-  public static final String numberOfDecks = 2;
+  public static final String NUMBER_OF_DECKS = 2;
 }

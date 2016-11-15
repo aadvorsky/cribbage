@@ -1,3 +1,5 @@
+package com.example.anastasia.cribbage;
+
 /**
  * Created by advorsky on 11/13/16.
  */
@@ -17,7 +19,7 @@ public class GameState {
     }
 
     public GameState(String s) {
-      String[] parts = s.split(Configuration.gameStateDelim);
+      String[] parts = s.split(Configuration.GAME_STATE_DELIM);
       currentCard = new Card(parts[0]);
       players = new Player[Configuration.N];
       for (int i = 0; i < Configuration.N; i++) {
@@ -48,13 +50,13 @@ public class GameState {
     public String toString() {
       StringBuilder sb = new StringBuilder();
       sb.append(currentCard.toString())
-      sb.append(Configuration.gameStateDelim);
+      sb.append(Configuration.GAME_STATE_DELIM);
       for (int i = 0; i < players.length; i++) {
         sb.append(players[i].toString());
-        sb.append(Configuration.gameStateDelim);
+        sb.append(Configuration.GAME_STATE_DELIM);
       }
       sb.append(stack.toString());
-      sb.append(Configuration.gameStateDelim);
+      sb.append(Configuration.GAME_STATE_DELIM);
       sb.append(currentPlayer);
       return sb.toString();
     }

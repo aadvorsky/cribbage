@@ -5,7 +5,6 @@ public class SimpleServer {
   static int nextUserId = 0;
   static int nextGroup = 0;
   static LinkedList<Integer> waitingUsers = new LinkedList<>();
-  public static final int N = 3;
   static Object groupLock = new Object();
   private final HashMap<Integer, Integer> groups = new HashMap<>();
   private final HashMap<Integer, Integer[]> groupsReversed = new HashMap<>();
@@ -47,9 +46,9 @@ public class SimpleServer {
           if (groups.containsKey(userId)) {
             groupFound = true;
             break;
-          } else if (waitingUsers.size() >= N) {
-            users = new Integer[N];
-            for (int i = 0; i < N; i++) {
+          } else if (waitingUsers.size() >= Configuration.N) {
+            users = new Integer[Configuration.N];
+            for (int i = 0; i < Configuration.N; i++) {
               Integer user = waitingUsers.remove();
               users[i] = user;
               groups.put(user, nextGroup);
@@ -68,7 +67,7 @@ public class SimpleServer {
       synchronized (groupLock) {
         group = groups.get(userId);
         Integer[] users = users.get(group);
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < Configuration.N; i++) {
           if (users[i] == userId) {
             internalId = i;
           }
