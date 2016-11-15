@@ -11,6 +11,24 @@ public class GameState {
     final int currentPlayer;
     final Stack stack;
 
+    /**
+     * Creates GameState for beginning of game.
+     */
+    public GameState() {
+      Stack stack = new Stack();
+      players = new Player[Configuration.N];
+      for (int i = 0; i < players.length; i++) {
+        Card[] hand = new Card[10];
+        for (int j = 0; j < 10; j++) {
+          hand[j] = stack.pop();
+        }
+        players[i] = new Player(hand);
+      }
+      currentCard = stack.pop();
+      currentCard.flip(true);
+      currentPlayer = 0;
+    }
+
     public GameState(Card currentCard, Player[] players, Stack stack, int currentPlayer) {
       this.currentCard = currentCard;
       this.players = players;
@@ -23,7 +41,7 @@ public class GameState {
       currentCard = new Card(parts[0]);
       players = new Player[Configuration.N];
       for (int i = 0; i < Configuration.N; i++) {
-        players[i] = new Player(parts[i + 1);
+        players[i] = new Player(parts[i + 1]);
       }
       stack = new Stack(parts[Configuration.N + 1]);
       currentPlayer = Integer.parseInt(parts[Configuration.N + 2]);
@@ -49,7 +67,7 @@ public class GameState {
 
     public String toString() {
       StringBuilder sb = new StringBuilder();
-      sb.append(currentCard.toString())
+      sb.append(currentCard.toString());
       sb.append(Configuration.GAME_STATE_DELIM);
       for (int i = 0; i < players.length; i++) {
         sb.append(players[i].toString());
