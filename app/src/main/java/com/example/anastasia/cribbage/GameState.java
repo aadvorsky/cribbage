@@ -9,7 +9,7 @@ public class GameState {
     final Card currentCard;
     final Player[] players;
     final int currentPlayer;
-    final Stack stack;
+    //final Stack stack;
 
     /**
      * Creates GameState for beginning of game.
