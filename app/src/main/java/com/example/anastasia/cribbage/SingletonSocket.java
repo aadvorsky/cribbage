@@ -10,7 +10,7 @@ import java.util.Scanner;
  * Singleton socket class with support for writing or reading lines to/from the server.
  */
 public class SingletonSocket {
-  private static final int RETRY_COUNT = 2;
+  private static final int RETRIES = 2;
   private static Scanner scanner;
   private static PrintWriter printWriter;
 
