@@ -8,7 +8,7 @@ public class GameState {
 
     final Card currentCard;
     final Player[] players;
-    final int currentPlayer;
+    final Player currentPlayer;
     final Stack stack;
 
     /**
