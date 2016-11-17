@@ -1,106 +1,60 @@
 package com.example.anastasia.cribbage;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 
 /**
- * Created by Anastasia on 11/13/2016.
+ * Singleton socket class with support for writing or reading lines to/from the server.
  */
 public class SingletonSocket {
-    private static SingletonSocket ourInstance = null;
-    private static int mserverPort;
-    private static String mipAddress;
-    private static Socket socket;
-    private static Scanner scanner;
-    private static PrintWriter printWriter;
+  private static final int RETRY_COUNT = 2;
+  private static Scanner scanner;
+  private static PrintWriter printWriter;
 
-
-    public static SingletonSocket getInstance() {
-
-        if (ourInstance == null){
-            ourInstance = new SingletonSocket();
-
-        }
-        return ourInstance;
+  /**
+   * Initializes SingletonSocket to connect to server with given IP and port.
+   *
+   * @return true if successful, false otherwise.
+   **/
+  public static boolean initialize(String ipAddress, int port) {
+    if (scanner != null) {
+      throw new IllegalStateException("Cannot create new socket after one is already created.");
     }
-
-    private SingletonSocket() {
-
+    try {
+      Socket socket = new Socket(ipAddress, port);
+      scanner = new Scanner(socket.getInputStream());
+      printWriter = new PrintWriter(socket.getOutputStream(), true);
+      return true;
+    } catch (UnknownHostException e) {
+    } catch (IOException e) {
     }
-
-
-
-    public String getIpAddress() {
-        return mipAddress;
-    }
-
-    public void setIpAddress(String ipAddress){
-        mipAddress = ipAddress;
-
-
-    }
-
-    public int getPortNo() {
-        return mserverPort;
-    }
-
-    public void setserverPort(int port){
-        mserverPort = port;
-    }
-
-
-    public void setSocket(int port, String ipAddress){
-
-
-    }
-    /*
-  public static void setSocket(InetAddress ipAddress, int portAddress){
-      try {
-          Socket socket = new Socket(ipAddress,portAddress);
-
-
-
-      } catch (IOException e) {
-          e.printStackTrace();
-      }
-
-
+    return false;
   }
-  */
-    /*
-    public static void Readline(Socket s){
-        try {
-            InputStream inBS = s.getInputStream();
-            Scanner in = new Scanner(inBS);
 
-            while (in.hasNext()){
-                String message = in.nextLine();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+  /**
+   * Reads next line from socket. Blocks until line is read.
+   *
+   * @return next line from socket.
+   **/
+  public static String readline(){
+    if (scanner == null) {
+      throw new IllegalStateException("SingletonSocket not initialized.");
     }
-    */
+    return scanner.nextLine();
+  }
 
-    /*
-
-    public static void WriteLine(Socket s){
-        PrintWriter out = null;
-        String str = null;
-        try {
-            out = new PrintWriter(s.getOutputStream());
-            out.println(str);
-            out.flush();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+  /**
+   * Writes a line to the socket. Blocks until line is written.
+   *
+   * @param s String to be written
+   **/
+  public static void writeLine(String s) {
+    if (printWriter == null) {
+      throw new IllegalStateException("SingletonSocket not initialized.");
     }
-    */
-
+    printWriter.println(s);
+  }
 }
