@@ -8,16 +8,33 @@ public class GameManager {
     //initialize()
         // wait for player ID -- reference player array
     //nextplayerturn()
-    //arrray player
+    //array player
     private Player[] playerArray;
+    private Player currPlayer;
 
     public GameManager()
     {
 
     }
+    public void initalize()
+    {
+        while(playerArray[].length()!=2)
+        {
 
+        }
+    }
     public Player[] playerArray()
     {
         return playerArray;
+    }
+    public Player returnPlayer()
+    {
+        return currPlayer
+    }
+
+    public void nextPlayerTurn()
+    {
+        int playerIndex = (playerArray.indexOf(currPlayer)+1)%2;
+        currPlayer = playerArray[playerIndex];
     }
 }
