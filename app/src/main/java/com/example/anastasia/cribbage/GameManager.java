@@ -1,5 +1,8 @@
 package com.example.anastasia.cribbage;
 
+
+import java.util.Arrays;
+
 /**
  * Created by advorsky on 11/13/16.
  */
@@ -18,7 +21,7 @@ public class GameManager {
     }
     public void initalize()
     {
-        while(playerArray[].length()!=2)
+        while(playerArray.length!=2)
         {
 
         }
@@ -29,12 +32,15 @@ public class GameManager {
     }
     public Player returnPlayer()
     {
-        return currPlayer
+        return currPlayer;
     }
 
     public void nextPlayerTurn()
+
     {
-        int playerIndex = (playerArray.indexOf(currPlayer)+1)%2;
+        int playerIndex = (Arrays.asList(playerArray).indexOf(currPlayer)+1)%2;
         currPlayer = playerArray[playerIndex];
+        //int playerIndex = (playerArray.indexOf(currPlayer)+1)%2;
+        //currPlayer = playerArray[playerIndex];
     }
 }

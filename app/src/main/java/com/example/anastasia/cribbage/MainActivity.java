@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String IPAddress = setIPAddress.getText().toString();
                 String portAddress = setPortAddress.getText().toString();
-                SingletonSocket instance  = SingletonSocket.getInstance();
 
 
 
