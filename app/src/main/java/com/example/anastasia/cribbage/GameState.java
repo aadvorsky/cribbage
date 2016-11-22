@@ -11,8 +11,13 @@ public class GameState {
 
     final Card currentCard;
     final Player[] players;
-    final int currentPlayer;
+
+
     Stack stack;
+
+    final int currentPlayer;
+
+
 
     /**
      * Creates GameState for beginning of game.
