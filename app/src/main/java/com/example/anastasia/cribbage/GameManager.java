@@ -1,17 +1,8 @@
 package com.example.anastasia.cribbage;
-
-
 import java.util.Arrays;
 
-/**
- * Created by advorsky on 11/13/16.
- */
 
 public class GameManager {
-    //initialize()
-        // wait for player ID -- reference player array
-    //nextplayerturn()
-    //array player
     private Player[] playerArray;
     private Player currPlayer;
 
@@ -23,8 +14,11 @@ public class GameManager {
     {
         while(playerArray.length!=2)
         {
-
+            //wait until there are two players
         }
+        currPlayer = playerArray[0];
+        //start game with curent player being player 1
+
     }
     public Player[] playerArray()
     {
@@ -40,7 +34,6 @@ public class GameManager {
     {
         int playerIndex = (Arrays.asList(playerArray).indexOf(currPlayer)+1)%2;
         currPlayer = playerArray[playerIndex];
-        //int playerIndex = (playerArray.indexOf(currPlayer)+1)%2;
-        //currPlayer = playerArray[playerIndex];
+
     }
 }
