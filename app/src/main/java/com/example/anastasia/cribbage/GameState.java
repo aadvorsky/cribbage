@@ -12,6 +12,7 @@ public class GameState {
     final Card currentCard;
     final Player[] players;
 
+    final Card flipped;
 
     Stack stack;
 
@@ -34,39 +35,31 @@ public class GameState {
       }
       currentCard = stack.pop();
       currentCard.flip(true);
+        flipped = null;
       currentPlayer = 0;
     }
 
-    public GameState(Card currentCard, Player[] players, Stack stack, int currentPlayer) {
+    public GameState(Card currentCard, Player[] players, Stack stack, int currentPlayer, Card flipped) {
       this.currentCard = currentCard;
       this.players = players;
       this.currentPlayer = currentPlayer;
       this.stack = stack;
+        this.flipped = flipped;
+
     }
 
     public GameState(String s) {
       String[] parts = s.split(Configuration.GAME_STATE_DELIM);
       currentCard = new Card(parts[0]);
+        flipped = new Card(parts[1]);
       players = new Player[Configuration.N];
-        int numofcard = parts.length/Configuration.N;
-        Card[][] cards = new Card[numofcard][];
-      Random rand = new Random(3);
-      for(int i=0; i<parts.length; i++){
-          int randint = rand.nextInt();
-          Card cd = new Card(parts[i]);
-          int index0 = 0;
-          if(randint==0) {
-              cards[randint][index0] = cd;
-              index0++;
-          }
 
-      }
-        /*
-      players = new Player[Configuration.N];
+
+
       for (int i = 0; i < Configuration.N; i++) {
 
        players[i] = new Player(parts[i + 1]);
-      }*/
+      }
       stack = new Stack(parts[Configuration.N + 1]);
       currentPlayer = Integer.parseInt(parts[Configuration.N + 2]);
     }
@@ -92,6 +85,11 @@ public class GameState {
     public String toString() {
       StringBuilder sb = new StringBuilder();
       sb.append(currentCard.toString());
+        if (flipped != null){
+        sb.append(flipped.toString());}
+        else {
+            sb.append("No");
+        }
       sb.append(Configuration.GAME_STATE_DELIM);
       for (int i = 0; i < players.length; i++) {
         sb.append(players[i].toString());

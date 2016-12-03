@@ -47,6 +47,7 @@ public class SimpleServer {
       synchronized(groupLock) {
         waitingUsers.add(userId);
       }
+
       scanner = new Scanner(socket.getInputStream());
       writer = new PrintWriter(socket.getOutputStream());
     }
