@@ -31,8 +31,13 @@ public class Player {
         return hand;
     }
     public String toString(Card[] arr)
-    { //TODO
-        return null;
+    {
+        String returnString = null;
+        for(Card element : arr)
+        {
+            returnString = element+"_";
+        }
+        return returnString;
 
     }
 }
