@@ -5,7 +5,6 @@ import android.widget.LinearLayout;
 import android.util.AttributeSet;
 
 public class HandView extends LinearLayout {
-
   public HandView(Context context) {
     super(context);
   }
@@ -14,6 +13,7 @@ public class HandView extends LinearLayout {
     super(context, attrs);
   }
 
-  public updateView(GameState gameState, Player me) {
+  public void updateView(Player player) {
+
   }
 }
