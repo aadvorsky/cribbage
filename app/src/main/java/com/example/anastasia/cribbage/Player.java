@@ -1,34 +1,46 @@
 package com.example.anastasia.cribbage;
 
-/**
- * Created by advorsky on 11/13/16.
- */
 
 public class Player {
 
-    //isturn
-    //hand
-    //state transitions - send to server
+    private Card[] hand;
+    private String stringHand;
 
     public Player(Card[] hand) {
-      // TODO
+        this.hand = hand;
+        stringHand = toString(hand);
     }
     public Player(String[] part){
 
     }
 
+    public Player(String hand){
+        stringHand = hand;
+
+    }
     public void startTurn() {
 
     }
 
     public boolean isTurn()
     {
-        // TODO
+        Player isTurn = GameManager.returnPlayer();
+
         return false;
     }
 
     public Card[] hand()
     {
-      return null;
+        return hand;
+    }
+    public String toString(Card[] arr)
+    {
+        String returnString = null;
+        for(Card element : arr)
+        {
+            returnString = element+"_";
+        }
+        return returnString;
+
     }
 }
