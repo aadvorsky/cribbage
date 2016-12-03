@@ -1,6 +1,7 @@
 package com.example.anastasia.cribbage;
 
 public class Card {
+  public static final int NUM_SUITS = 4;
   public static final int CLUBS = 0;
   public static final int DIAMONDS = 1;
   public static final int HEARTS = 2;
@@ -69,6 +70,14 @@ public class Card {
       }
     }
     return deck;
+  }
+
+  public int getSuit() {
+    return suit;
+  }
+
+  public int getRank() {
+    return rank;
   }
 
 }

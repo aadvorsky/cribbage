@@ -4,18 +4,16 @@ package com.example.anastasia.cribbage;
 public class Player {
 
     private Card[] hand;
-    private String stringHand;
 
     public Player(Card[] hand) {
         this.hand = hand;
-        stringHand = toString(hand);
     }
     public Player(String[] part){
-
+      // TODO(smaslo)
     }
 
     public Player(String hand){
-        stringHand = hand;
+      // TODO(smaslo)
 
     }
     public void startTurn() {

@@ -40,7 +40,7 @@ public class SimpleServer {
     final Scanner scanner;
     final PrintWriter writer;
 
-    public ClientHandler(final Socket socket) throws IOException{
+    public ClientHandler(final Socket socket) throws IOException {
       this.socket = socket;
       userId = nextUserId;
       nextUserId++;

@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:text="Enter your IP Adress Here"
-        android:ems="10"
+        android:width="30dp"
         android:id="@+id/IPAddressHolder"
         android:layout_marginTop="44dp"
         android:layout_below="@+id/SetIPAddressLabel"
