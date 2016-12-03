@@ -2,8 +2,13 @@ package com.example.anastasia.cribbage;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class UI extends AppCompatActivity {
+
+    TextView score;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -25,8 +25,8 @@
         <RelativeLayout
 
             android:layout_width="137dp"
-            android:layout_height="match_parent"
-            android:id="@+id/player1">
+            android:id="@+id/player1"
+            android:layout_height="250dp">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -70,15 +70,15 @@
 
         <RelativeLayout
             android:layout_width="91dp"
-            android:layout_height="match_parent"
+            android:layout_height="250dp"
             android:id="@+id/scores">
 
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/player2">
+            android:id="@+id/player2"
+            android:layout_height="250dp">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -111,10 +111,10 @@
                 android:layout_height="100dp"
                 app:srcCompat="@drawable/h11"
                 android:id="@+id/imageView10"
+                android:layout_marginTop="22dp"
                 android:layout_below="@+id/imageView7"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="11dp"/>
+                android:layout_alignParentStart="true"/>
         </RelativeLayout>
 
     </LinearLayout>
@@ -122,11 +122,12 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_alignParentTop="true"
+        android:layout_marginTop="336dp"
+        android:layout_alignTop="@+id/linearLayout2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp">
+        android:layout_marginLeft="17dp"
+        android:layout_marginStart="17dp">
 
         <ImageView
             android:layout_width="100dp"
@@ -153,17 +154,6 @@
         <ImageView
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/s06"
-            android:id="@+id/imageView13"
-            android:layout_alignParentTop="true"
-            android:layout_alignLeft="@+id/imageView12"
-            android:layout_alignStart="@+id/imageView12"
-            android:layout_marginLeft="45dp"
-            android:layout_marginStart="45dp"/>
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
             app:srcCompat="@drawable/s04"
             android:id="@+id/imageView18"
             android:layout_marginLeft="39dp"
@@ -171,6 +161,14 @@
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/imageView17"
             android:layout_toEndOf="@+id/imageView17"/>
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/s06"
+            android:id="@+id/imageView13"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"/>
 
     </RelativeLayout>
 </RelativeLayout>

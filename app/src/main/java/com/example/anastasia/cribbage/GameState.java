@@ -48,25 +48,13 @@ public class GameState {
       String[] parts = s.split(Configuration.GAME_STATE_DELIM);
       currentCard = new Card(parts[0]);
       players = new Player[Configuration.N];
-        int numofcard = parts.length/Configuration.N;
-        Card[][] cards = new Card[numofcard][];
-      Random rand = new Random(3);
-      for(int i=0; i<parts.length; i++){
-          int randint = rand.nextInt();
-          Card cd = new Card(parts[i]);
-          int index0 = 0;
-          if(randint==0) {
-              cards[randint][index0] = cd;
-              index0++;
-          }
 
-      }
-        /*
-      players = new Player[Configuration.N];
+
+
       for (int i = 0; i < Configuration.N; i++) {
 
-       players[i] = new Player(parts[i + 1]);
-      }*/
+      // players[i] = new Player(parts[i + 1]);
+      }
       stack = new Stack(parts[Configuration.N + 1]);
       currentPlayer = Integer.parseInt(parts[Configuration.N + 2]);
     }
