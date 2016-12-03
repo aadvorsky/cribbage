@@ -10,6 +10,9 @@ public class Player {
         this.hand = hand;
         stringHand = toString(hand);
     }
+    public Player(String[] part){
+
+    }
 
     public Player(String hand){
         stringHand = hand;
