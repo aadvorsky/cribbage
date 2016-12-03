@@ -13,6 +13,9 @@ public class Player {
     public Player(Card[] hand) {
       // TODO
     }
+    public Player(String[] part){
+
+    }
 
     public void startTurn() {
 
