@@ -1,5 +1,10 @@
 package com.example.anastasia.cribbage.android;
 
+import com.example.anastasia.cribbage.Card;
+import com.example.anastasia.cribbage.Configuration;
+import com.example.anastasia.cribbage.GameState;
+import com.example.anastasia.cribbage.Player;
+
 public class PlayerController {
   private static PlayerController instance;
 

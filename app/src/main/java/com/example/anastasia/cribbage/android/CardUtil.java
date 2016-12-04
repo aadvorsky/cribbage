@@ -1,4 +1,6 @@
-package com.example.anastasia.cribbage;
+package com.example.anastasia.cribbage.android;
+
+import com.example.anastasia.cribbage.Card;
 
 import android.content.Context;
 import android.content.res.Resources;

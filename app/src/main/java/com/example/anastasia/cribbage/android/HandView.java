@@ -1,5 +1,8 @@
 package com.example.anastasia.cribbage.android;
 
+import com.example.anastasia.cribbage.Card;
+import com.example.anastasia.cribbage.Player;
+
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;

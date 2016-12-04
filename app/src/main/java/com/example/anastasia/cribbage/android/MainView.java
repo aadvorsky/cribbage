@@ -1,5 +1,9 @@
 package com.example.anastasia.cribbage.android;
 
+import com.example.anastasia.cribbage.Configuration;
+import com.example.anastasia.cribbage.GameState;
+import com.example.anastasia.cribbage.Player;
+
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,7 +36,6 @@ public class MainView extends LinearLayout {
 
   @Override
   public void onFinishInflate() {
-    handViews = new HandView[Configuration.N];
     leftHand = (HandView) findViewById(R.id.left_hand);
     myHand = (HandView) findViewById(R.id.my_hand);
     rightHand = (HandView) findViewById(R.id.right_hand);

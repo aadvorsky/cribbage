@@ -1,5 +1,7 @@
 package com.example.anastasia.cribbage.android;
 
+import com.example.anastasia.cribbage.SingletonSocket;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
