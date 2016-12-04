@@ -23,7 +23,7 @@ public class GameState {
       for (int j = 0; j < 10; j++) {
         hand[j] = stack.pop();
       }
-      players[i] = new Player(hand);
+      players[i] = new Player(hand, i);
     }
     faceUpCard = stack.pop();
     faceUpCard.flip(true);
@@ -91,7 +91,7 @@ public class GameState {
 
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    if (faceupCard == null) {
+    if (faceUpCard == null) {
       sb.append(NULL_KEYWORD);
     } else {
       sb.append(faceUpCard.toString());

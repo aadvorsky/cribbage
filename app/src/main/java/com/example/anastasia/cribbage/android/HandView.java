@@ -1,6 +1,7 @@
 package com.example.anastasia.cribbage.android;
 
 import com.example.anastasia.cribbage.Card;
+import com.example.anastasia.cribbage.Configuration;
 import com.example.anastasia.cribbage.Player;
 
 import android.content.Context;
