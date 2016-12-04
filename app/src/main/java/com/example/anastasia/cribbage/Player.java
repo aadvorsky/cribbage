@@ -9,13 +9,12 @@ public class Player {
 
   public Player(Card[] hand, int playerIndex) {
     this.hand = hand;
-    state = new GameState();
     this.playerIndex = playerIndex;
   }
 
   public Player(String encodedHand){
-    String[] parts = endCodedHand.split(DELIM);
-    hand = new Card[Configuration.NUM_CARDS];
+    String[] parts = encodedHand.split(DELIM);
+    hand = new Card[Configuration.HAND_SIZE];
     int index = 0;
     for (int i = 0; i < hand.length; i++) {
       hand[i] = new Card(parts[index]);
@@ -30,7 +29,7 @@ public class Player {
 
   public boolean isTurn(GameState gameState)
   {
-    return this == gameState.getCurrentPlayer();
+    return this.getIndex() == gameState.getCurrentPlayer();
   }
 
   public Card[] getHand()
