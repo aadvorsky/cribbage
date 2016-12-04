@@ -1,4 +1,4 @@
-package com.example.anastasia.cribbage;
+package com.example.anastasia.cribbage.android;
 
 import android.content.Context;
 import android.view.View;

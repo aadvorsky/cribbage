@@ -1,4 +1,4 @@
-package com.example.anastasia.cribbage;
+package com.example.anastasia.cribbage.android;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

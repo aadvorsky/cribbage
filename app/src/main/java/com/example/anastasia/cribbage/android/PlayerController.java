@@ -1,4 +1,4 @@
-package com.example.anastasia.cribbage;
+package com.example.anastasia.cribbage.android;
 
 public class PlayerController {
   private static PlayerController instance;
