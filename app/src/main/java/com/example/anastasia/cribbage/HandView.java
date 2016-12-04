@@ -9,13 +9,21 @@ import android.util.AttributeSet;
 public class HandView extends LinearLayout {
   private ImageView[] cardViews;
   private boolean me = false;
+  private final CardUtil cardUtil;
+  private final Context context;
 
   public HandView(Context context) {
-    super(context);
+    this(context, null);
   }
 
   public HandView(Context context, AttributeSet attrs) {
-    super(context, attrs);
+    this(context, null, 0);
+  }
+
+  public HandView(Context context, AttributeSet attrs, int defStyleAttrs) {
+    super(context, attrs, defStyleAttrs);
+    this.context = context;
+    this.cardUtil = new CardUtil(context);
   }
 
   public void setIsMe(boolean isMe) {
@@ -45,16 +53,20 @@ public class HandView extends LinearLayout {
   }
 
   public void updateView(Player player) {
-    // TODO 
+    Card[] newCards = player.getHand();
+    for (int i = 0; i < newCards.length; i++) {
+      int drawableId = cardUtil.getDrawableId(newCards[i]);
+      cardViews[i].setImageResource(drawableId);
+    }
   }
 
   private void addOnClickListeners() {
     final PlayerController playerController = PlayerController.getInstance();
     for (int i = 0; i < cardViews.length; i++) {
-      cardViews[i].addOnClickListener(new View.OnClicListener() {
-        final int index = i;
+      final int index = i;
+      cardViews[i].setOnClickListener(new View.OnClickListener() {
         @Override
-        public void run() {
+        public void onClick(View v) {
           playerController.cardClicked(index);
         }
       });
