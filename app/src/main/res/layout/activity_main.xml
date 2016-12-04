@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,62 +8,56 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     android:background="#bbdefb">
 
-    <EditText
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Enter your IP Adress Here"
-        android:width="30dp"
-        android:id="@+id/ip_address_holder"
-        android:layout_marginTop="44dp"
-        android:layout_below="@+id/SetIPAddressLabel"
-        android:layout_centerHorizontal="true"/>
+        android:orientation="horizontal"
+        android:layout_marginBottom="25dp">
+        
+        <TextView
+            style="BlackText"
+            android:text="IP Address:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+ 
+        <EditText
+            style="BlackText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter your IP Adress Here"
+            android:width="500dp"
+            android:id="@+id/ip_address_holder" />
+    </LinearLayout>
 
-    <TextView
-        android:text="Port No"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/PortNo"
-        android:layout_alignBottom="@+id/port_number_holder"
-        android:layout_alignLeft="@+id/SetIPAddressLabel"
-        android:layout_alignStart="@+id/SetIPAddressLabel"
-        android:layout_marginBottom="80dp"/>
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Enter Port No Here"
-        android:ems="10"
-        android:id="@+id/port_number_holder"
-        android:layout_marginBottom="158dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/ip_address_holder"
-        android:layout_alignStart="@+id/ip_address_holder"/>
-
-    <TextView
-        android:text="Set IP Address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/SetIPAddressLabel"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"/>
+        android:orientation="horizontal"
+        android:layout_marginBottom="25dp">
+        
+        <TextView
+            style="BlackText"
+            android:text="Port Number:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+ 
+        <EditText
+            style="BlackText"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:hint="Port number"
+            android:id="@+id/port_number_holder"/>
+    </LinearLayout>
 
     <Button
+        style="BlackText"
         android:text="Connect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/SetIPAddressLabel"
-        android:layout_alignEnd="@+id/SetIPAddressLabel"
-        android:layout_marginRight="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="41dp"
         android:id="@+id/connect"
-        android:background="#90caf9"
-        />
+        android:background="#90caf9" />
+</LinearLayout>
 
-</RelativeLayout>

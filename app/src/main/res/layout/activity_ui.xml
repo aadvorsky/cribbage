@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.example.anastasia.cribbage
+<com.example.anastasia.cribbage.android.MainView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -17,21 +17,21 @@
         android:layout_height="0dp"
         android:layout_weight="2">
 
-        <include layout="hand.xml"
+        <include layout="@layout/hand"
             android:id="@+id/left_hand"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />
-        <include layout="hand.xml"
+        <include layout="@layout/hand"
             android:id="@+id/right_hand"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />
     </LinearLayout>
 
-    <include layout="hand.xml"
+    <include layout="@layout/hand"
       android:id="@+id/my_hand"
       android:layout_width="match_parent"
       android:layout_height="0dp"
       android:layout_weight="1" />
-</com.example.anastasia.cribbage>
+</com.example.anastasia.cribbage.android.MainView>

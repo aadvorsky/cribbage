@@ -36,6 +36,7 @@ public class MainView extends LinearLayout {
 
   @Override
   public void onFinishInflate() {
+    super.onFinishInflate();
     leftHand = (HandView) findViewById(R.id.left_hand);
     myHand = (HandView) findViewById(R.id.my_hand);
     rightHand = (HandView) findViewById(R.id.right_hand);

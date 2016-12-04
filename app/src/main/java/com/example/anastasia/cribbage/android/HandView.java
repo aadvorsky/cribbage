@@ -39,6 +39,7 @@ public class HandView extends LinearLayout {
 
   @Override
   public void onFinishInflate() {
+    super.onFinishInflate();
     cardViews = new ImageView[Configuration.HAND_SIZE];
     cardViews[0] = (ImageView) findViewById(R.id.card0);
     cardViews[1] = (ImageView) findViewById(R.id.card1);
