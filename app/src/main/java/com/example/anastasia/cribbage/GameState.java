@@ -3,96 +3,109 @@ package com.example.anastasia.cribbage;
 import java.util.ArrayList;
 import java.util.Random;
 
-
-@SuppressWarnings("unused")
 public class GameState {
+  private final String NULL_KEYWORD = "null";
 
-    final Card currentCard;
-    Player[] players;
-    Stack stack;
-    final int currentPlayer;
+  final Card faceUpCard;
+  Player[] players;
+  Stack stack;
+  final int currentPlayer;
+  final Card cardBeingHeld;
 
-    /**
-     * Creates GameState for beginning of game.
-     */
-    public GameState() {
-      Stack stack = new Stack();
-      players = new Player[Configuration.N];
-      for (int i = 0; i < players.length; i++) {
-        Card[] hand = new Card[10];
-        for (int j = 0; j < 10; j++) {
-          hand[j] = stack.pop();
-        }
-        players[i] = new Player(hand);
+  /**
+   * Creates GameState for beginning of game.
+   */
+  public GameState() {
+    stack = new Stack();
+    players = new Player[Configuration.N];
+    for (int i = 0; i < players.length; i++) {
+      Card[] hand = new Card[10];
+      for (int j = 0; j < 10; j++) {
+        hand[j] = stack.pop();
       }
-      currentCard = stack.pop();
-      currentCard.flip(true);
-      currentPlayer = 0;
+      players[i] = new Player(hand);
+    }
+    faceUpCard = stack.pop();
+    faceUpCard.flip(true);
+    currentPlayer = 0;
+    cardBeingHeld = null;
+  }
+
+  public GameState(Card faceUpCard, Player[] players, Stack stack, int currentPlayer, Card cardBeingHeld) {
+    this.faceUpCard = faceUpCard;
+    this.players = players;
+    this.currentPlayer = currentPlayer;
+    this.stack = stack;
+    this.cardBeingHeld = cardBeingHeld;
+  }
+
+  public GameState(String s) {
+    String[] parts = s.split(Configuration.GAME_STATE_DELIM);
+    int index = 0;
+    faceUpCard = new Card(parts[index]);
+    index++;
+    
+    if (parts[index].equals(NULL_KEYWORD)) {
+      cardBeingHeld = null;
+    } else {
+      cardBeingHeld = new Card(parts[index]);
+    }
+    index++;
+
+    players = new Player[Configuration.N];
+    for (int i = 0; i < Configuration.N; i++) {
+      players[i] = new Player(parts[index]);
+      index++;
     }
 
-    public GameState(Card currentCard, Player[] players, Stack stack, int currentPlayer) {
-      this.currentCard = currentCard;
-      this.players = players;
-      this.currentPlayer = currentPlayer;
-      this.stack = stack;
+    stack = new Stack(parts[index]);
+    index++;
+    currentPlayer = Integer.parseInt(parts[index]);
+  }
+
+  public Card getFaceUpCard()
+  {
+    return faceUpCard;
+  }
+
+  public Player[] getPlayers()
+  {
+    return players;
+  }
+  public int getCurrentPlayer()
+  {
+    return currentPlayer;
+  }
+
+  public Stack getStack() {
+    return stack;
+  }
+
+  public Card getCardBeingHeld() {
+    return cardBeingHeld;
+  }
+
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(faceUpCard.toString());
+    sb.append(Configuration.GAME_STATE_DELIM);
+
+    if (cardBeingHeld == null) {
+      sb.append(NULL_KEYWORD);
+    } else {
+      sb.append(cardBeingHeld.toString());
     }
+    sb.append(Configuration.GAME_STATE_DELIM);
 
-    public GameState(String s) {
-      String[] parts = s.split(Configuration.GAME_STATE_DELIM);
-      currentCard = new Card(parts[0]);
-      players = new Player[Configuration.N];
-        int numofcard = parts.length/Configuration.N;
-        Card[][] cards = new Card[numofcard][];
-      Random rand = new Random(3);
-      for(int i=0; i<parts.length; i++){
-          int randint = rand.nextInt();
-          Card cd = new Card(parts[i]);
-          int index0 = 0;
-          if(randint==0) {
-              cards[randint][index0] = cd;
-              index0++;
-          }
-
-      }
-      players = new Player[Configuration.N];
-      for (int i = 0; i < Configuration.N; i++) {
-
-       players[i] = new Player(parts[i + 1]);
-      }
-
-      stack = new Stack(parts[Configuration.N + 1]);
-      currentPlayer = Integer.parseInt(parts[Configuration.N + 2]);
-    }
-
-    public Card currentCard()
-    {
-      return currentCard;
-    }
-
-    public Player[] getPlayers()
-    {
-      return players;
-    }
-    public int getCurrentPlayer()
-    {
-      return currentPlayer;
-    }
-
-    public Stack getStack() {
-      return stack;
-    }
-
-    public String toString() {
-      StringBuilder sb = new StringBuilder();
-      sb.append(currentCard.toString());
+    for (int i = 0; i < players.length; i++) {
+      sb.append(players[i].toString());
       sb.append(Configuration.GAME_STATE_DELIM);
-      for (int i = 0; i < players.length; i++) {
-        sb.append(players[i].toString());
-        sb.append(Configuration.GAME_STATE_DELIM);
-      }
-      sb.append(stack.toString());
-      sb.append(Configuration.GAME_STATE_DELIM);
-      sb.append(currentPlayer);
-      return sb.toString();
     }
+
+    sb.append(stack.toString());
+    sb.append(Configuration.GAME_STATE_DELIM);
+
+    sb.append(currentPlayer);
+    return sb.toString();
+  }
 }
