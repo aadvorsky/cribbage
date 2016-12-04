@@ -1,3 +1,5 @@
+package com.example.anastasia.cribbage;
+
 public class CardUtil {
   private static String[] prefixes;
   private static final String CARD_BACK = "card_back.png";
@@ -10,14 +12,14 @@ public class CardUtil {
     if (prefixes == null) {
       setupPrefixes();
     }
-    return prefixes[c.getSuit())] + String.format("%02d", c.getRank()) + EXTENSION;
+    return prefixes[c.getSuit()] + String.format("%02d", c.getRank()) + EXTENSION;
   }
 
-  static vod setupPrefixes() {
+  static void setupPrefixes() {
     prefixes = new String[Card.NUM_SUITS];
-    prefixes[CLUBS] = "c";
-    prefixes[DIAMONDS] = "d";
-    prefixes[HEARTS] = "h";
-    prefixes[SPADES] = "s";
+    prefixes[Card.CLUBS] = "c";
+    prefixes[Card.DIAMONDS] = "d";
+    prefixes[Card.HEARTS] = "h";
+    prefixes[Card.SPADES] = "s";
   }
 }

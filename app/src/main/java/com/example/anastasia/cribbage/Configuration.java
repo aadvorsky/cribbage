@@ -14,4 +14,9 @@ public class Configuration {
    * Number of decks to use.
    */
   public static final int NUMBER_OF_DECKS = 2;
+
+  /**
+   * Number of cards in a player's hand.
+   */
+  public static final int HAND_SIZE = 10;
 }
