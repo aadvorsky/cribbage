@@ -2,58 +2,50 @@ package com.example.anastasia.cribbage;
 
 
 public class Player {
+  private static String DELIM = "_";
 
 	private Card[] hand;
-	private String stringHand;
-	private Player player;
-	private GameManager game;
-	private GameState state;
-	private PlayerController control;
-	private int index;
-	
+	private int playerIndex;
 
-    public Player(Card[] hand) {
-      this.hand = hand;
-      stringHand = toString(hand);
-      game = new GameManager();
-      state = new GameState();
-      
-    }
+  public Player(Card[] hand, int playerIndex) {
+    this.hand = hand;
+    state = new GameState();
+    this.playerIndex = playerIndex;
+  }
 
-    public Player(String hand){
-    	stringHand = hand;
+  public Player(String encodedHand){
+    String[] parts = endCodedHand.split(DELIM);
+    hand = new Card[Configuration.NUM_CARDS];
+    int index = 0;
+    for (int i = 0; i < hand.length; i++) {
+      hand[i] = new Card(parts[index]);
+      index++;
     }
-    public void startTurn() {
-    	if (isTurn()==true)
-    	{
-    		
-    		
-    		game.nextPlayerTurn();
-    	}
-    }
+    playerIndex = Integer.parseInt(parts[index]);
+  }
 
-    public boolean isTurn()
-    {
-    	Player playerTurn = GameManager.returnPlayer();
-    	
-    	if(playerTurn.equals(state.getCurrentPlayer()))
-    		return true;
-        return false;
-    }
+  public int getIndex() {
+    return playerIndex;
+  }
 
-    public Card[] getHand()
-    {
-      return hand;
-    }
+  public boolean isTurn(GameState gameState)
+  {
+    return this == gameState.getCurrentPlayer();
+  }
 
-    public String toString(Card[] arr)
-    { 
-    	String returnString = null;
-    	for(Card element : arr)
-    	{
-    		returnString = element+"_";
-    	}
-		return returnString;
-    	
+  public Card[] getHand()
+  {
+    return hand;
+  }
+
+  public String toString(Card[] arr)
+  { 
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < arr.length; i++) {
+      sb.append(arr[i].toString());
+      sb.append(DELIM);
     }
+    sb.append(playerIndex);
+	  return sb.toString();
+  }
 }

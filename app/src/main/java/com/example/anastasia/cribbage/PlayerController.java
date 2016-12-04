@@ -1,62 +1,84 @@
 package com.example.anastasia.cribbage;
 
 public class PlayerController {
-	
-	private Player player;
+  private static PlayerController instance;
+
+	private Player myself;
 	private GameState gameState;
-	//initial game state, int or player reference
+  private MainView view;
+
 	
-	public PlayerController(Player player, GameState gameState)
+	public PlayerController(Player myself, GameState gameState, MainView view)
 	{
-		this.player = player;
+    this.myself = myself;
 		this.gameState = gameState;
+    this.view = view;
+    view.setMyself(myself.getIndex());
+    view.updateView(gameState);
+    instance = this;
 	}
 
+  public static PlayerController getInstance() {
+    return instance;
+  }
 
-	public boolean cardClicked()
+	public boolean cardClicked(int cardIndex) 
 	{
-		
-		if (player.isTurn()) //if not my turn return false
-		{
-			//gameState.currentCard = null; //
-			return true;
-		}
-		//if true return updatedView
-		
-		//if false return false
-		
-		
-		
-		
-		return false;
+    if (!myself.isTurn(gameState)) {  // Can only take action if it is person's turn.
+      return false;
+    }
+    if (gameState.getCardBeingHeld() == null) { // Must take card from face up card or stack.
+      return false;
+    }
+    Card newCardBeingHeld = myself.getHand()[cardIndex];
+    newCardBeingHeld.flip(true);
+    myself.getHand()[cardIndex] = gameState.getCardBeingHeld();
+    GameState newGameState = new GameState(gameState.getFaceUpCard(), gameState.getPlayers(),
+        gameState.getStack(), myself.getIndex(), newCardBeingHeld);
+    updateGameState(newGameState);
+    return true;
 	}
 	
 	public boolean faceUpCardClicked()
 	{
-		//if true return updatedView
-		
-		//if false return false
-		
-		
-		//if not my turn retun false
-		
-		return false;
+    if (!myself.isTurn(gameState)) {  // Can only take action if it is person's turn.
+      return false;
+    }
+    Card faceUpCard, cardBeingHeld;
+    int nextPerson;
+    if (gameState.getCardBeingHeld() == null) {  // Person is picking up card from stack.
+      faceUpCard = null;
+      cardBeingHeld = gameState.getFaceUpCard();
+      nextPerson = myself.getIndex();
+    } else {  // Person is putting down card and ending turn.
+      nextPerson = (myself.getIndex() + 1) % Configuration.N;
+      faceUpCard = gameState.getCardBeingHeld();
+      cardBeingHeld = null;
+    }
+    GameState newGameState = new GameState(faceUpCard, gameState.getPlayers(), gameState.getStack(),
+        nextPerson, cardBeingHeld);
+    updateGameState(newGameState);
+    return true;
 	}
 	
 	public boolean stackClicked()
 	{
-		//if true return updatedView
-		
-		//if false return false
-		
-		
-		//if not my turn retun false
-		
-		return false;
-		
+    if (!myself.isTurn(gameState)) {  // Can only take action if it is person's turn.
+      return false;
+    }
+    if (gameState.getCardBeingHeld() != null) {  // Cannot pickup card when holding one.
+      return false;
+    }
+    Card cardBeingHeld = gameState.getStack().pop();
+    GameState newGameState = new GameState(gameState.getFaceUpCard(), gameState.getPlayers(),
+        gameState.getStack(), myself.getIndex(), cardBeingHeld);
+    updateGameState(newGameState);
+    return true;
 	}
-	public boolean myCardClicked(int cardIndex)
-	{
-		return false; 
-	}
+
+  private void updateGameState(GameState newGameState) {
+    this.gameState = newGameState;
+    view.updateView(gameState);
+    // TODO - send message to server.
+  }
 }
