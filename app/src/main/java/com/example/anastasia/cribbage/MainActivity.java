@@ -8,23 +8,22 @@ import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
     private EditText setipAddress;
-    private EditText setPortAddress;
+    private EditText setPortNumber;
     private Button  connect;
-    private  InetAddress serverAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setipAddress = (EditText) findViewById(R.id.ipAddressHolder);
-        setPortAddress = (EditText) findViewById(R.id.PortAddress);
-        connect = (Button)findViewById(R.id.Connect);
+        setipAddress = (EditText) findViewById(R.id.ip_address_holder);
+        setPortNumber = (EditText) findViewById(R.id.port_number_holder);
+        connect = (Button)findViewById(R.id.connect);
         connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String ipAddress = setipAddress.getText().toString();
-                String portAddress = setPortAddress.getText().toString();
-                SingletonServer.initialize(ipAddress, portAddress);
+                int portNumber = Integer.parseInt(setPortNumber.getText().toString());
+                SingletonSocket.initialize(ipAddress, portNumber);
                 setContentView(R.layout.activity_ui);
             }
         });
