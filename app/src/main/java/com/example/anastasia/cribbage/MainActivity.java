@@ -6,11 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 public class MainActivity extends AppCompatActivity {
-    private EditText setIPAddress;
+    private EditText setipAddress;
     private EditText setPortAddress;
     private Button  connect;
     private  InetAddress serverAddress;
@@ -19,30 +16,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setIPAddress = (EditText) findViewById(R.id.IPAddressHolder);
+        setipAddress = (EditText) findViewById(R.id.ipAddressHolder);
         setPortAddress = (EditText) findViewById(R.id.PortAddress);
         connect = (Button)findViewById(R.id.Connect);
         connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String IPAddress = setIPAddress.getText().toString();
+                String ipAddress = setipAddress.getText().toString();
                 String portAddress = setPortAddress.getText().toString();
-
-
-
-                try {
-                    serverAddress = InetAddress.getByName(IPAddress);
-                } catch (UnknownHostException e) {
-                    e.printStackTrace();
-                }
-
-
+                SingletonServer.initialize(ipAddress, portAddress);
+                setContentView(R.layout.activity_ui);
             }
-
         });
-
-
-
     }
 
 }
