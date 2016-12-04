@@ -42,7 +42,11 @@ public class GameState {
   public GameState(String s) {
     String[] parts = s.split(Configuration.GAME_STATE_DELIM);
     int index = 0;
-    faceUpCard = new Card(parts[index]);
+    if (parts[index].equals(NULL_KEYWORD)) {
+      faceUpCard = null;
+    } else {
+      faceUpCard = new Card(parts[index]);
+    }
     index++;
     
     if (parts[index].equals(NULL_KEYWORD)) {
@@ -87,7 +91,11 @@ public class GameState {
 
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append(faceUpCard.toString());
+    if (faceupCard == null) {
+      sb.append(NULL_KEYWORD);
+    } else {
+      sb.append(faceUpCard.toString());
+    }
     sb.append(Configuration.GAME_STATE_DELIM);
 
     if (cardBeingHeld == null) {
