@@ -22,7 +22,6 @@ public class Player {
 
     public Player(String hand){
     	stringHand = hand;
-    	
     }
     public void startTurn() {
     	if (isTurn()==true)
@@ -42,10 +41,11 @@ public class Player {
         return false;
     }
 
-    public Card[] hand()
+    public Card[] getHand()
     {
       return hand;
     }
+
     public String toString(Card[] arr)
     { 
     	String returnString = null;
