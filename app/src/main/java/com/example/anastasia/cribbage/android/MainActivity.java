@@ -1,9 +1,13 @@
 package com.example.anastasia.cribbage.android;
 
+import com.example.anastasia.cribbage.GameState;
+import com.example.anastasia.cribbage.PlayerClient;
+import com.example.anastasia.cribbage.PlayerController;
 import com.example.anastasia.cribbage.SingletonSocket;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +19,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                .permitAll()
+                .build());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setipAddress = (EditText) findViewById(R.id.ip_address_holder);
@@ -27,6 +34,14 @@ public class MainActivity extends AppCompatActivity {
                 int portNumber = Integer.parseInt(setPortNumber.getText().toString());
                 SingletonSocket.initialize(ipAddress, portNumber);
                 setContentView(R.layout.activity_ui);
+                String meInt = SingletonSocket.readLine();
+                int me = Integer.parseInt(meInt);
+                String state = SingletonSocket.readLine();
+                GameState initial = new GameState(state);
+                android.util.Log.e("SUSAN", findViewById(android.R.id.content) + "");
+                PlayerClient client = (PlayerClient) findViewById(R.id.activity_ui).getParent();
+                android.util.Log.e("SUSAN", client + "");
+                PlayerController controller = new PlayerController(initial.getPlayers()[me], initial, client);
             }
         });
     }

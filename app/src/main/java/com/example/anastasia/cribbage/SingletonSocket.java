@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import android.util.Log;
+
 /**
  * Singleton socket class with support for writing or reading lines to/from the server.
  */
@@ -30,7 +32,9 @@ public class SingletonSocket {
       scanner = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       return true;
     } catch (UnknownHostException e) {
+      Log.e("SingletonSocket", "UnknownHostException: " + e.getMessage());
     } catch (IOException e) {
+      Log.e("SingletonSocket", "IOException: " + e.getMessage() );
     }
     return false;
   }

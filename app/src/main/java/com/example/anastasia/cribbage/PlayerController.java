@@ -9,27 +9,25 @@ import com.example.anastasia.cribbage.Player;
 public class PlayerController {
   private static PlayerController instance;
 
-	private Player myself;
-	private GameState gameState;
+  private Player myself;
+  private GameState gameState;
   private PlayerClient view;
 
-	
-	public PlayerController(Player myself, GameState gameState, PlayerClient view)
-	{
+
+  public PlayerController(Player myself, GameState gameState, PlayerClient view) {
     this.myself = myself;
-		this.gameState = gameState;
+    this.gameState = gameState;
     this.view = view;
     view.setMyself(myself.getIndex());
     view.updateView(gameState);
     instance = this;
-	}
+  }
 
   public static PlayerController getInstance() {
     return instance;
   }
 
-	public boolean cardClicked(int cardIndex) 
-	{
+  public boolean cardClicked(int cardIndex) {
     if (!myself.isTurn(gameState)) {  // Can only take action if it is person's turn.
       return false;
     }
@@ -40,13 +38,12 @@ public class PlayerController {
     newCardBeingHeld.flip(true);
     myself.getHand()[cardIndex] = gameState.getCardBeingHeld();
     GameState newGameState = new GameState(gameState.getFaceUpCard(), gameState.getPlayers(),
-        gameState.getStack(), myself.getIndex(), newCardBeingHeld);
+            gameState.getStack(), myself.getIndex(), newCardBeingHeld);
     updateGameState(newGameState);
     return true;
-	}
-	
-	public boolean faceUpCardClicked()
-	{
+  }
+
+  public boolean faceUpCardClicked() {
     if (!myself.isTurn(gameState)) {  // Can only take action if it is person's turn.
       return false;
     }
@@ -62,13 +59,12 @@ public class PlayerController {
       cardBeingHeld = null;
     }
     GameState newGameState = new GameState(faceUpCard, gameState.getPlayers(), gameState.getStack(),
-        nextPerson, cardBeingHeld);
+            nextPerson, cardBeingHeld);
     updateGameState(newGameState);
     return true;
-	}
-	
-	public boolean stackClicked()
-	{
+  }
+
+  public boolean stackClicked() {
     if (!myself.isTurn(gameState)) {  // Can only take action if it is person's turn.
       return false;
     }
@@ -77,18 +73,30 @@ public class PlayerController {
     }
     Card cardBeingHeld = gameState.getStack().pop();
     GameState newGameState = new GameState(gameState.getFaceUpCard(), gameState.getPlayers(),
-        gameState.getStack(), myself.getIndex(), cardBeingHeld);
+            gameState.getStack(), myself.getIndex(), cardBeingHeld);
     updateGameState(newGameState);
     return true;
-	}
+  }
+
+  public GameState getGameState() {
+    return this.gameState;
+  }
 
   private void updateGameState(GameState newGameState) {
-    this.gameState = newGameState;
-    view.updateView(gameState);
-    SingletonSocket.writeLine(gameState.toString());
-    while (!myself.isTurn(this.gameState)) {
-      GameState gs = new GameState(SingletonSocket.readLine());
+    if (myself.isTurn(this.gameState)) {
+      System.out.println("Writing game state.");
       this.gameState = newGameState;
+      view.updateView(gameState);
+      SingletonSocket.writeLine(gameState.toString());
+    }
+    waitForOthers();
+  }
+
+  public void waitForOthers() {
+    while (!myself.isTurn(this.gameState)) {
+      System.out.println("Waiting for other user.");
+      GameState gs = new GameState(SingletonSocket.readLine());
+      this.gameState = gs;
       view.updateView(gameState);
     }
   }
