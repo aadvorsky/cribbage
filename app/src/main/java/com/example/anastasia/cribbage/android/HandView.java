@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.util.AttributeSet;
 
-public class HandView extends LinearLayout {
+public class HandView extends LinearLayout implements HandClient {
   private ImageView[] cardViews;
   private boolean me = false;
   private final CardUtil cardUtil;
