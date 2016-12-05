@@ -3,6 +3,7 @@ package com.example.anastasia.cribbage.android;
 import com.example.anastasia.cribbage.Card;
 import com.example.anastasia.cribbage.Configuration;
 import com.example.anastasia.cribbage.GameState;
+import com.example.anastasia.cribbage.PlayerClient;
 import com.example.anastasia.cribbage.Player;
 
 public class PlayerController {
@@ -10,10 +11,10 @@ public class PlayerController {
 
 	private Player myself;
 	private GameState gameState;
-  private MainView view;
+  private PlayerClient view;
 
 	
-	public PlayerController(Player myself, GameState gameState, MainView view)
+	public PlayerController(Player myself, GameState gameState, PlayerClient view)
 	{
     this.myself = myself;
 		this.gameState = gameState;

@@ -3,6 +3,7 @@ package com.example.anastasia.cribbage.android;
 import com.example.anastasia.cribbage.Configuration;
 import com.example.anastasia.cribbage.GameState;
 import com.example.anastasia.cribbage.Player;
+import com.example.anastasia.cribbage.PlayerClient;
 
 import android.content.Context;
 import android.view.View;
@@ -10,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.util.AttributeSet;
 
-public class MainView extends LinearLayout {
+public class MainView extends LinearLayout implements PlayerClient {
   private HandView leftHand;
   private HandView myHand;
   private HandView rightHand;
