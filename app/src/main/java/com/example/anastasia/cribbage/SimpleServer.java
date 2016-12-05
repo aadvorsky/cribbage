@@ -109,7 +109,6 @@ public class SimpleServer {
 
     void write(String s) {
       writer.println(s);
-      System.out.println("done println.");
       writer.flush();
     }
   }

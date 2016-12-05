@@ -26,7 +26,9 @@ public class ConsoleMain implements PlayerClient {
 
     System.out.println("You are player " + me);
 
-    state = new GameState(SingletonSocket.readLine());
+    String stateSerialized = SingletonSocket.readLine();
+    System.out.println(stateSerialized);
+    state = new GameState(stateSerialized);
 
     PlayerController controller = new PlayerController(state.getPlayers()[this.me], state, this);
 

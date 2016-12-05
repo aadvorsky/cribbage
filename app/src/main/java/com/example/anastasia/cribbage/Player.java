@@ -37,11 +37,12 @@ public class Player {
     return hand;
   }
 
-  public String toString(Card[] arr)
+  @Override
+  public String toString()
   { 
     StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < arr.length; i++) {
-      sb.append(arr[i].toString());
+    for (int i = 0; i < hand.length; i++) {
+      sb.append(hand[i].toString());
       sb.append(DELIM);
     }
     sb.append(playerIndex);

@@ -20,6 +20,7 @@ public class Stack {
         }
       }
       top = stack.length - 1;
+      shuffle();
     }
 
     public Stack(String s) {
