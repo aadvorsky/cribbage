@@ -31,6 +31,7 @@ public class SimpleServer {
       final Socket clientSocket = serverSocket.accept();
       Runnable clientHandler = new ClientHandler(clientSocket);
       Thread clientHandlerThread = new Thread(clientHandler);
+      clientHandlerThread.start();
     }
   }
 
@@ -108,6 +109,8 @@ public class SimpleServer {
 
     void write(String s) {
       writer.println(s);
+      System.out.println("done println.");
+      writer.flush();
     }
   }
 

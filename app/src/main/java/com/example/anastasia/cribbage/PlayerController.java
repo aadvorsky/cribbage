@@ -1,4 +1,4 @@
-package com.example.anastasia.cribbage.android;
+package com.example.anastasia.cribbage;
 
 import com.example.anastasia.cribbage.Card;
 import com.example.anastasia.cribbage.Configuration;
@@ -85,6 +85,11 @@ public class PlayerController {
   private void updateGameState(GameState newGameState) {
     this.gameState = newGameState;
     view.updateView(gameState);
-    // TODO - send message to server.
+    SingletonSocket.writeLine(gameState.toString());
+    while (!myself.isTurn(this.gameState)) {
+      GameState gs = new GameState(SingletonSocket.readLine());
+      this.gameState = newGameState;
+      view.updateView(gameState);
+    }
   }
 }

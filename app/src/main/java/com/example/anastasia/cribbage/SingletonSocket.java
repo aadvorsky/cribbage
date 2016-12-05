@@ -1,17 +1,18 @@
 package com.example.anastasia.cribbage;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
 
 /**
  * Singleton socket class with support for writing or reading lines to/from the server.
  */
 public class SingletonSocket {
   private static final int RETRIES = 2;
-  private static Scanner scanner;
+  private static BufferedReader scanner;
   private static PrintWriter printWriter;
 
   /**
@@ -25,8 +26,8 @@ public class SingletonSocket {
     }
     try {
       Socket socket = new Socket(ipAddress, port);
-      scanner = new Scanner(socket.getInputStream());
       printWriter = new PrintWriter(socket.getOutputStream(), true);
+      scanner = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       return true;
     } catch (UnknownHostException e) {
     } catch (IOException e) {
@@ -39,11 +40,16 @@ public class SingletonSocket {
    *
    * @return next line from socket.
    **/
-  public static String readline(){
+  public static String readLine() {
+    try {
     if (scanner == null) {
       throw new IllegalStateException("SingletonSocket not initialized.");
     }
-    return scanner.nextLine();
+    String s = scanner.readLine();
+    return s;
+    } catch (IOException e) {
+      return null;
+    }
   }
 
   /**
@@ -56,5 +62,6 @@ public class SingletonSocket {
       throw new IllegalStateException("SingletonSocket not initialized.");
     }
     printWriter.println(s);
+    printWriter.flush();
   }
 }
