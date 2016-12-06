@@ -24,6 +24,7 @@ public class Stack {
     }
 
     public Stack(String s) {
+        //assert s!=null
       String[] cards = s.split(" ");
       stack = new Card[Configuration.NUMBER_OF_DECKS * 52];
       top = cards.length - 1;
@@ -43,6 +44,8 @@ public class Stack {
 
     public Card pop()
     {
+
+
       if (top < 0) {
         throw new IllegalStateException("Cannot pop from empty stack.");
       }
