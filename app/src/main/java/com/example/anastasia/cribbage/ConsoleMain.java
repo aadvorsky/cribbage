@@ -30,9 +30,14 @@ public class ConsoleMain implements PlayerClient {
     System.out.println(stateSerialized);
     state = new GameState(stateSerialized);
 
-    PlayerController controller = new PlayerController(state.getPlayers()[this.me], state, this);
+    Player myPlayer = state.getPlayers()[this.me];
+
+    PlayerController controller = new PlayerController(myPlayer, state, this);
 
     while (true) {
+      if (!myPlayer.isTurn(controller.getGameState())) {
+        controller.waitForOthers();
+      }
       System.out.println("Press 0 - 9 to click on the respective card in your hand, 11 to take the "
           + "faceup card or 22 to take from the stack.");
       int choice = in.nextInt();
