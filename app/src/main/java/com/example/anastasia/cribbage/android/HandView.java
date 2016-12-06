@@ -14,19 +14,25 @@ import android.util.AttributeSet;
 public class HandView extends LinearLayout {
   private ImageView[] cardViews;
   private boolean me = false;
-  private final CardUtil cardUtil;
-  private final Context context;
+  private CardUtil cardUtil;
+  private Context context;
 
   public HandView(Context context) {
-    this(context, null);
+    super(context);
+    setup(context);
   }
 
   public HandView(Context context, AttributeSet attrs) {
-    this(context, null, 0);
+    super(context, attrs);
+    setup(context);
   }
 
   public HandView(Context context, AttributeSet attrs, int defStyleAttrs) {
     super(context, attrs, defStyleAttrs);
+    setup(context);
+  }
+
+  private void setup(Context context) {
     this.context = context;
     this.cardUtil = new CardUtil(context);
   }
@@ -59,21 +65,22 @@ public class HandView extends LinearLayout {
   }
 
   public void updateView(Player player) {
+    android.util.Log.e("SUSAN", "Updating view.");
     Card[] newCards = player.getHand();
     for (int i = 0; i < newCards.length; i++) {
-      int drawableId = cardUtil.getDrawableId(newCards[i]);
-      cardViews[i].setImageResource(drawableId);
+      cardViews[i].setImageDrawable(cardUtil.getDrawable(newCards[i]));
     }
+    requestLayout();
+    invalidate();
   }
 
   private void addOnClickListeners() {
-    final PlayerController playerController = PlayerController.getInstance();
     for (int i = 0; i < cardViews.length; i++) {
       final int index = i;
       cardViews[i].setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          playerController.cardClicked(index);
+          PlayerController.getInstance().cardClicked(index);
         }
       });
     }

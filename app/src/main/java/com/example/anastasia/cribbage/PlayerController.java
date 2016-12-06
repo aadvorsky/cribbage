@@ -43,6 +43,21 @@ public class PlayerController {
     return true;
   }
 
+  public boolean cardBeingHeldClicked() {
+    if (!myself.isTurn(gameState) || gameState.getCardBeingHeld() == null) {  // Can only take action if it is person's turn.
+      return false;
+    }
+    Card faceUpCard = gameState.getCardBeingHeld();
+    Card cardBeingHeld = null;
+    int nextPerson;
+    nextPerson = (myself.getIndex() + 1) % Configuration.N;
+    android.util.Log.e("SUSAN", "HI");
+    GameState newGameState = new GameState(faceUpCard, gameState.getPlayers(), gameState.getStack(),
+            nextPerson, cardBeingHeld);
+    updateGameState(newGameState);
+    return true;
+  }
+
   public boolean faceUpCardClicked() {
     if (!myself.isTurn(gameState)) {  // Can only take action if it is person's turn.
       return false;
@@ -84,12 +99,12 @@ public class PlayerController {
 
   private void updateGameState(GameState newGameState) {
     if (myself.isTurn(this.gameState)) {
-      System.out.println("Writing game state.");
+      android.util.Log.e("SUSAN", "Writing game state.");
       this.gameState = newGameState;
       view.updateView(gameState);
       SingletonSocket.writeLine(gameState.toString());
     }
-    waitForOthers();
+    //waitForOthers();
   }
 
   public void waitForOthers() {

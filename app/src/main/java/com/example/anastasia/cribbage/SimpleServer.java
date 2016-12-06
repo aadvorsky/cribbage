@@ -95,19 +95,24 @@ public class SimpleServer {
       }
       while (!gameStates.containsKey(group)) {}
       GameState gameState = gameStates.get(group);
+      System.out.println("Group: " + userId + " " + group);
       write(gameState.toString());
       while (true) {
         if (scanner.hasNextLine()) {
+          System.out.println("Updating game state.");
           gameState = new GameState(scanner.nextLine());
           gameStates.put(group, gameState);
         }
         if (gameStates.get(group) != gameState) {
-          write(gameStates.get(group).toString());
+          System.out.println("Updating game state 2");
+          gameState = gameStates.get(group);
+          write(gameState.toString());
         }
       }
     }
 
     void write(String s) {
+      System.out.println(userId + " " + s);
       writer.println(s);
       writer.flush();
     }

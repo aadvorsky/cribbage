@@ -55,6 +55,7 @@ public class MainView extends LinearLayout implements PlayerClient {
     super.onFinishInflate();
     leftHand = (HandView) findViewById(R.id.left_hand);
     myHand = (HandView) findViewById(R.id.my_hand);
+    myHand.setIsMe(true);
     rightHand = (HandView) findViewById(R.id.right_hand);
 
     faceUpCardImage = (ImageView) findViewById(R.id.face_up_card);
@@ -74,7 +75,12 @@ public class MainView extends LinearLayout implements PlayerClient {
     });
 
     cardBeingHeldImage = (ImageView) findViewById(R.id.card_being_held);
-    Log.e("SUSAN", "on finish inflate");
+    cardBeingHeldImage.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        PlayerController.getInstance().cardBeingHeldClicked();
+      }
+    });
   }
 
   public void updateView(GameState gameState) {
@@ -85,20 +91,19 @@ public class MainView extends LinearLayout implements PlayerClient {
       faceUpCardImage.setVisibility(INVISIBLE);
     } else {
       faceUpCardImage.setVisibility(VISIBLE);
-      faceUpCardImage.setImageResource(cardUtil.getDrawableId(gameState.getFaceUpCard()));
+      faceUpCardImage.setImageDrawable(cardUtil.getDrawable(gameState.getFaceUpCard()));
     }
 
     if (gameState.getCardBeingHeld() == null) {
       cardBeingHeldImage.setVisibility(INVISIBLE);
     } else {
       cardBeingHeldImage.setVisibility(VISIBLE);
-      cardBeingHeldImage.setImageResource(cardUtil.getDrawableId(gameState.getCardBeingHeld()));
+      cardBeingHeldImage.setImageDrawable(cardUtil.getDrawable(gameState.getCardBeingHeld()));
     }
 
-    stackImage.setImageResource(cardUtil.getDrawableId(null));
+    stackImage.setImageDrawable(cardUtil.getDrawable(null));
     requestLayout();
     invalidate();
-    android.util.Log.e("SUSAN", "UPdate view");
   }
 
   private Player getLeftPlayer(GameState state) {

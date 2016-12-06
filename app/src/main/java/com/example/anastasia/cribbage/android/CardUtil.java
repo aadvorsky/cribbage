@@ -4,8 +4,13 @@ import com.example.anastasia.cribbage.Card;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+
+import java.util.HashMap;
 
 public class CardUtil {
+  private static final HashMap<String, Drawable> drawables = new HashMap<>();
+
   private static final String CARD_BACK = "card_back";
   private static final String EXTENSION = ".png";
   private static final String ANDROID_TYPE = "drawable";
@@ -19,16 +24,20 @@ public class CardUtil {
     this.resources = context.getResources();
   }
 
-  int getDrawableId(Card c) {
+  Drawable getDrawable(Card c) {
     String filename;
     if (c == null || !c.isFaceUp()) {
       filename = CARD_BACK;
     } else {
       filename = prefixes[c.getSuit()] + String.format("%02d", c.getRank());
     }
+    if (drawables.containsKey(filename)) {
+      return drawables.get(filename);
+    }
     int id = resources.getIdentifier(filename, ANDROID_TYPE, packageName);
-    android.util.Log.e("SUSAN", filename);
-    return id;
+    Drawable d = resources.getDrawable(id);
+    drawables.put(filename, d);
+    return d;
   }
 
   void setupPrefixes() {
