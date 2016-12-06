@@ -28,7 +28,9 @@ public class Card {
   }
 
   public Card(String s) {
-    //assert s!=null;
+    if (s == null) {
+      throw new IllegalArgumentException();
+    }
     faceUp = s.charAt(0) == '1';
     String suitString  = s.substring(1, 2);
     int tmpSuit = -1;

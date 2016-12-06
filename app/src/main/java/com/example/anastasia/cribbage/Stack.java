@@ -24,7 +24,9 @@ public class Stack {
     }
 
     public Stack(String s) {
-        //assert s!=null
+      if (s == null) {
+        throw new IllegalStateException();
+      }
       String[] cards = s.split(" ");
       stack = new Card[Configuration.NUMBER_OF_DECKS * 52];
       top = cards.length - 1;
