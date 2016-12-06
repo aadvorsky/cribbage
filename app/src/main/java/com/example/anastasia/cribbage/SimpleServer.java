@@ -1,13 +1,13 @@
 package com.example.anastasia.cribbage;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.LinkedList;
 import java.util.HashMap;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.Scanner;
+import java.util.LinkedList;
 
 public class SimpleServer {
   static private int port;
@@ -17,7 +17,8 @@ public class SimpleServer {
   static Object groupLock = new Object();
   static private final HashMap<Integer, Integer> groups = new HashMap<>();
   static private final HashMap<Integer, Integer[]> groupsReversed = new HashMap<>();
-  static private final ConcurrentHashMap<Integer, GameState> gameStates = new ConcurrentHashMap<>();
+  static Object stateLock = new Object();
+  static private HashMap<Integer, String> gameStates;
 
   public static void main(String[] args) throws IOException {
     if (args.length == 1) {
@@ -25,6 +26,9 @@ public class SimpleServer {
     } else {
       port = 8000;
       System.out.println("Invalid arguments, setting port to 8000.");
+    }
+    synchronized(stateLock) {
+      gameStates = new HashMap<>();
     }
     ServerSocket serverSocket = new ServerSocket(port);
     while (true) {
@@ -38,7 +42,7 @@ public class SimpleServer {
   static class ClientHandler implements Runnable {
     final Socket socket;
     final int userId;
-    final Scanner scanner;
+    final BufferedReader scanner;
     final PrintWriter writer;
 
     public ClientHandler(final Socket socket) throws IOException {
@@ -49,11 +53,12 @@ public class SimpleServer {
         waitingUsers.add(userId);
       }
 
-      scanner = new Scanner(socket.getInputStream());
+      scanner = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       writer = new PrintWriter(socket.getOutputStream());
     }
 
     public void run() {
+    	try {
       boolean groupFound = false;
       boolean master = false;
       while (!groupFound) {
@@ -91,28 +96,51 @@ public class SimpleServer {
       write(internalId + "");
       if (master) {
         GameState gameState = new GameState();
-        gameStates.put(group, gameState);
+        synchronized (stateLock) {
+          gameStates.put(group, gameState.toString());
+        }
       }
-      while (!gameStates.containsKey(group)) {}
-      GameState gameState = gameStates.get(group);
-      System.out.println("Group: " + userId + " " + group);
+      boolean found = false;
+      while (!found) {
+        synchronized(stateLock) {
+          found = gameStates.containsKey(group);
+        }
+      }
+      String gameState;
+      synchronized(stateLock) {
+        gameState = gameStates.get(group);
+      }
       write(gameState.toString());
       while (true) {
-        if (scanner.hasNextLine()) {
-          System.out.println("Updating game state.");
-          gameState = new GameState(scanner.nextLine());
-          gameStates.put(group, gameState);
+        if (scanner.ready()) {
+          //System.out.println("Updating server game state."+ userId);
+          String gs = scanner.readLine();
+          gameState = gs;
+          synchronized(stateLock) {
+            gameStates.put(group, gs);
+          }
+          continue;
         }
-        if (gameStates.get(group) != gameState) {
-          System.out.println("Updating game state 2");
-          gameState = gameStates.get(group);
-          write(gameState.toString());
+        String curGameState;
+        synchronized(stateLock) {
+          curGameState = gameStates.get(group);
         }
+        if (curGameState != gameState){
+          //System.out.println("Updating server game state 2."+ userId);
+          gameState = curGameState;
+          write(curGameState.toString());
+        }
+        try {
+          Thread.currentThread().sleep(1);
+        } catch (InterruptedException e) {}
       }
+    	} catch (IOException e) {
+    		System.out.println("IO Exception for user " + userId + ": " + e.getMessage());
+    	}
     }
 
     void write(String s) {
-      System.out.println(userId + " " + s);
+      //System.out.println(userId + " " + s);
       writer.println(s);
       writer.flush();
     }

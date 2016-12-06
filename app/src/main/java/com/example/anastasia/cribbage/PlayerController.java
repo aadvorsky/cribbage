@@ -21,6 +21,9 @@ public class PlayerController {
     view.setMyself(myself.getIndex());
     view.updateView(gameState);
     instance = this;
+    if (!myself.isTurn(gameState)) {
+      view.waitForOthersAsync();
+    }
   }
 
   public static PlayerController getInstance() {
@@ -37,8 +40,16 @@ public class PlayerController {
     Card newCardBeingHeld = myself.getHand()[cardIndex];
     newCardBeingHeld.flip(true);
     myself.getHand()[cardIndex] = gameState.getCardBeingHeld();
-    GameState newGameState = new GameState(gameState.getFaceUpCard(), gameState.getPlayers(),
-            gameState.getStack(), myself.getIndex(), newCardBeingHeld);
+    System.out.println(java.util.Arrays.toString(myself.getHand()));
+    myself.getHand()[cardIndex].flip(true);
+
+    Player[] players = new Player[3];
+    players[myself.getIndex()] = myself;
+    int leftIndex = (myself.getIndex() - 1 + Configuration.N) % Configuration.N;
+    players[leftIndex] = gameState.getPlayers()[leftIndex];
+    int rightIndex = (myself.getIndex() + 1) % Configuration.N;
+    players[rightIndex] = gameState.getPlayers()[rightIndex];
+    GameState newGameState = new GameState(gameState.getFaceUpCard(), players, gameState.getStack(), myself.getIndex(), newCardBeingHeld);
     updateGameState(newGameState);
     return true;
   }
@@ -48,10 +59,10 @@ public class PlayerController {
       return false;
     }
     Card faceUpCard = gameState.getCardBeingHeld();
+    faceUpCard.flip(true);
     Card cardBeingHeld = null;
     int nextPerson;
     nextPerson = (myself.getIndex() + 1) % Configuration.N;
-    android.util.Log.e("SUSAN", "HI");
     GameState newGameState = new GameState(faceUpCard, gameState.getPlayers(), gameState.getStack(),
             nextPerson, cardBeingHeld);
     updateGameState(newGameState);
@@ -67,10 +78,12 @@ public class PlayerController {
     if (gameState.getCardBeingHeld() == null) {  // Person is picking up card from stack.
       faceUpCard = null;
       cardBeingHeld = gameState.getFaceUpCard();
+      cardBeingHeld.flip(true);
       nextPerson = myself.getIndex();
     } else {  // Person is putting down card and ending turn.
       nextPerson = (myself.getIndex() + 1) % Configuration.N;
       faceUpCard = gameState.getCardBeingHeld();
+      faceUpCard.flip(true);
       cardBeingHeld = null;
     }
     GameState newGameState = new GameState(faceUpCard, gameState.getPlayers(), gameState.getStack(),
@@ -87,6 +100,7 @@ public class PlayerController {
       return false;
     }
     Card cardBeingHeld = gameState.getStack().pop();
+    cardBeingHeld.flip(true);
     GameState newGameState = new GameState(gameState.getFaceUpCard(), gameState.getPlayers(),
             gameState.getStack(), myself.getIndex(), cardBeingHeld);
     updateGameState(newGameState);
@@ -97,22 +111,18 @@ public class PlayerController {
     return this.gameState;
   }
 
-  private void updateGameState(GameState newGameState) {
-    if (myself.isTurn(this.gameState)) {
-      android.util.Log.e("SUSAN", "Writing game state.");
-      this.gameState = newGameState;
-      view.updateView(gameState);
-      SingletonSocket.writeLine(gameState.toString());
+  public void updateGameState(GameState newGameState) {
+    if (myself.isTurn(this.gameState) && this.gameState != newGameState) {
+      SingletonSocket.writeLine(newGameState.toString());
     }
-    //waitForOthers();
+    this.gameState = newGameState;
+    view.updateView(gameState);
+    if (!myself.isTurn(this.gameState)) {
+      view.waitForOthersAsync();
+    }
   }
 
-  public void waitForOthers() {
-    while (!myself.isTurn(this.gameState)) {
-      System.out.println("Waiting for other user.");
-      GameState gs = new GameState(SingletonSocket.readLine());
-      this.gameState = gs;
-      view.updateView(gameState);
-    }
+  public GameState waitForGameState() {
+    return new GameState(SingletonSocket.readLine());
   }
 }

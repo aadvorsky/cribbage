@@ -27,7 +27,6 @@ public class ConsoleMain implements PlayerClient {
     System.out.println("You are player " + me);
 
     String stateSerialized = SingletonSocket.readLine();
-    System.out.println(stateSerialized);
     state = new GameState(stateSerialized);
 
     Player myPlayer = state.getPlayers()[this.me];
@@ -36,7 +35,7 @@ public class ConsoleMain implements PlayerClient {
 
     while (true) {
       if (!myPlayer.isTurn(controller.getGameState())) {
-        controller.waitForOthers();
+        waitForOthersAsync();
       }
       System.out.println("Press 0 - 9 to click on the respective card in your hand, 11 to take the "
           + "faceup card or 22 to take from the stack.");
@@ -62,5 +61,10 @@ public class ConsoleMain implements PlayerClient {
   public void updateView(GameState gameState) {
     System.out.println(gameState.toString());
     System.out.println();
+  }
+
+  public void waitForOthersAsync() {
+     GameState gs = PlayerController.getInstance().waitForGameState();
+     PlayerController.getInstance().updateGameState(gs);
   }
 }

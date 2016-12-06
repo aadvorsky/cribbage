@@ -37,6 +37,7 @@
 
                <ImageView
                    android:id="@+id/face_up_card"
+                   android:src="@drawable/card_back"
                    android:layout_width="0dp"
                    android:layout_height="wrap_content"
                    android:layout_weight="1" />
@@ -51,6 +52,7 @@
 
             <ImageView
                 android:id="@+id/card_being_held"
+                android:src="@drawable/card_back"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
