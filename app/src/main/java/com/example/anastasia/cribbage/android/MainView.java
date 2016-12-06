@@ -5,8 +5,10 @@ import com.example.anastasia.cribbage.GameState;
 import com.example.anastasia.cribbage.Player;
 import com.example.anastasia.cribbage.PlayerClient;
 import com.example.anastasia.cribbage.PlayerController;
+import com.example.anastasia.cribbage.SingletonSocket;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -118,5 +120,21 @@ public class MainView extends LinearLayout implements PlayerClient {
 
   private Player getMyPlayer(GameState state) {
     return state.getPlayers()[myIndex];
+  }
+
+  public void waitForOthersAsync() {
+    AsyncTask<Integer, Integer, GameState> task = new AsyncTask<Integer, Integer, GameState>() {
+      @Override
+      protected GameState doInBackground(Integer... params) {
+        return PlayerController.getInstance().waitForGameState();
+      }
+
+      @Override
+      protected void onPostExecute(GameState r) {
+        PlayerController.getInstance().updateGameState(r);
+      }
+
+    };
+    task.execute();
   }
 }
