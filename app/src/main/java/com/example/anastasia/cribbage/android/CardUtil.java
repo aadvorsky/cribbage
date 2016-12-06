@@ -12,7 +12,6 @@ public class CardUtil {
   private static final HashMap<String, Drawable> drawables = new HashMap<>();
 
   private static final String CARD_BACK = "card_back";
-  private static final String EXTENSION = ".png";
   private static final String ANDROID_TYPE = "drawable";
 
   private final Resources resources;
