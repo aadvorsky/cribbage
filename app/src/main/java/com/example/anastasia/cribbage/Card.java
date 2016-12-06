@@ -18,6 +18,7 @@ public class Card {
   public static final String[] suitEncodings = {"C", "D", "H", "S"};
 
   public Card(int suit, int rank, boolean faceUp) {
+
     if (suit < 0 || suit > 3 || rank < 0 || rank > 13) {
       throw new IllegalArgumentException();
     }
@@ -27,6 +28,7 @@ public class Card {
   }
 
   public Card(String s) {
+    //assert s!=null;
     faceUp = s.charAt(0) == '1';
     String suitString  = s.substring(1, 2);
     int tmpSuit = -1;

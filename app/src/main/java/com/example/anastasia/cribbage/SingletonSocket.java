@@ -42,10 +42,17 @@ public class SingletonSocket {
    * @return next line from socket.
    **/
   public static String readLine() {
+    /*
+    requires scanner!=null
+     */
     try {
+
+
+
     if (scanner == null) {
       throw new IllegalStateException("SingletonSocket not initialized.");
     }
+
     String s = scanner.readLine();
     return s;
     } catch (IOException e) {
