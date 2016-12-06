@@ -7,8 +7,8 @@ public class GameState {
   private final String NULL_KEYWORD = "null";
 
   final Card faceUpCard;
-  Player[] players;
-  Stack stack;
+  final Player[] players;
+  final Stack stack;
   final int currentPlayer;
   final Card cardBeingHeld;
 
